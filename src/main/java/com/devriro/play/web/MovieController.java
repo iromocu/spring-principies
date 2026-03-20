@@ -1,13 +1,13 @@
 package com.devriro.play.web;
 
 import com.devriro.play.domain.dto.MovieDto;
+import com.devriro.play.domain.dto.UpdateMovieDto;
 import com.devriro.play.persistance.entity.MovieEntity;
 import com.devriro.play.domain.services.MovieService;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,12 +22,40 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<MovieDto> getAll(){
-        return movieService.getAll();
+    public ResponseEntity<List<MovieDto>> getAll(){
+        return ResponseEntity.ok(movieService.getAll());
     }
 
     @GetMapping("/{id}")
-    public MovieDto getById(@PathVariable long id){
-        return movieService.geById(id);
+    public ResponseEntity<MovieDto> getById(@PathVariable long id){
+        MovieDto movieDto = movieService.geById(id);
+        if(movieDto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(movieDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<MovieDto> add(@RequestBody MovieDto movieDto){
+        MovieDto newMovieDto = movieService.save(movieDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newMovieDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MovieDto> update(@PathVariable long id, @RequestBody UpdateMovieDto updateMovieDto){
+        MovieDto movieDto = movieService.update(id, updateMovieDto);
+        if(movieDto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(movieDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MovieDto> delete(@PathVariable long id){
+        MovieDto movieDto = movieService.delete(id);
+        if(movieDto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

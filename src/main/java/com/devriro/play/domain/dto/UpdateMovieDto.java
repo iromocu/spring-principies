@@ -4,13 +4,9 @@ import com.devriro.play.domain.enums.Gender;
 
 import java.time.LocalDate;
 
-public record MovieDto(
-        Long id,
+public record UpdateMovieDto(
         String title,
-        Integer duration,
-        Gender gender,
         LocalDate releaseDate,
-        Double rating,
-        String status
+        Double rating
 ) {
 }
