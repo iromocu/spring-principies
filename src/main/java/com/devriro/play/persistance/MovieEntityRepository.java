@@ -2,6 +2,7 @@ package com.devriro.play.persistance;
 
 import com.devriro.play.domain.dto.MovieDto;
 import com.devriro.play.domain.dto.UpdateMovieDto;
+import com.devriro.play.domain.exceptions.MovieAlreadyExistException;
 import com.devriro.play.domain.repository.MovieRepository;
 import com.devriro.play.persistance.crud.CrudMovieEntity;
 import com.devriro.play.persistance.entity.MovieEntity;
@@ -34,6 +35,9 @@ public class MovieEntityRepository implements MovieRepository {
 
     @Override
     public MovieDto save(MovieDto movieDto) {
+        if(crudMovieEntity.findFirstByTitle(movieDto.title()) != null){
+            throw  new MovieAlreadyExistException(movieDto.title());
+        }
         MovieEntity entity = this.movieMapper.toEntity(movieDto);
         crudMovieEntity.save(entity);
         return movieDto;
