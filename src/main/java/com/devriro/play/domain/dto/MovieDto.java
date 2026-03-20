@@ -15,7 +15,7 @@ public record MovieDto(
         @Min(value = 1, message = "The duration has not be minor to 1.")
         @Max(value = 1000, message = "The duration has not be major to 999.")
         Integer duration,
-        
+
         Gender gender,
         @PastOrPresent(message = "The releaseDate must be minor to today")
         LocalDate releaseDate,
