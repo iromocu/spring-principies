@@ -1,12 +1,15 @@
 package com.devriro.play.domain.dto;
 
+import com.devriro.play.domain.enums.Gender;
+
 import java.time.LocalDate;
 
 public record MovieDto(
         String title,
         Integer duration,
-        String gender,
+        Gender gender,
         LocalDate releaseDate,
-        Double rating
+        Double rating,
+        String status
 ) {
 }

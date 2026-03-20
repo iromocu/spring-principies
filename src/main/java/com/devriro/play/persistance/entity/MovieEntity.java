@@ -77,4 +77,12 @@ public class MovieEntity {
     public void setRankin(BigDecimal rankin) {
         this.rankin = rankin;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
